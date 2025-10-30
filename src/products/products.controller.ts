@@ -3,14 +3,14 @@ import { Request, Response } from 'express';
 import { ProductsService } from './products.service';
 import { ProductDTO } from './products.dto';
 
-interface Product {
-  id: number;
-  nome: string;
-  valor: number;
-  description: string;
-}
+// interface Product {
+//   id: number;
+//   nome: string;
+//   valor: number;
+//   description: string;
+// }
 
-const produtos: Product[] = [];
+// const produtos: ProductDTO[] = [];
 
 @Controller('products')
 export class ProductsController {
@@ -18,6 +18,7 @@ export class ProductsController {
 
   @Get('/lista')
   ListaProducts(@Req() req: Request, @Res() res: Response) {
+    const produtos = this.products.listaProdutos();
     return res.json({ items: produtos });
   }
 
@@ -27,8 +28,8 @@ export class ProductsController {
     @Res() res: Response,
     @Body() Body: ProductDTO,
   ) {
-    produtos.push(Body);
+    this.products.salvarProduto(Body);
 
-    return res.json({ items: produtos });
+    return res.json(Body);
   }
 }
